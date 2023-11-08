@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gresources>
+  <gresource prefix="/se/andras/gtkadw">
+    <file>window.ui</file>
+    <file>other.ui</file>
+  </gresource>
+</gresources>
