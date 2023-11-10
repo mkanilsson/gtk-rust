@@ -9,7 +9,7 @@ mod imp {
     };
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(resource = "/se/andras/gtkadw/other.ui")]
+    #[template(file = "resources/other.blp")]
     pub struct OtherPage {
         #[template_child]
         pub btn: TemplateChild<Button>,

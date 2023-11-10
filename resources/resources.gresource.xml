@@ -2,6 +2,6 @@
 <gresources>
   <gresource prefix="/se/andras/gtkadw">
     <file>window.ui</file>
-    <file>other.ui</file>
+    <file>other.blp</file>
   </gresource>
 </gresources>

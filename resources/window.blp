@@ -1,0 +1,85 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $MyWindow : ApplicationWindow {
+  default-width: 720;
+  default-height: 600;
+  title: "GTK Adwaita";
+
+  Adw.ViewStack main_stack {
+    Adw.ViewStackPage {
+      title: "Start";
+      name: "default";
+      icon-name: "audio-volume-low";
+      child: WindowHandle {
+        Adw.ToolbarView {
+          [top]
+          Adw.HeaderBar {
+            show-title: true;
+
+            [start]
+            Button switchdawdjawkdj_stack {
+              label: "Switch stack";
+              action-name: "win.switch_stack_default";
+            }
+
+          }
+        }
+
+        Button switch_to_nav {
+          label: "Switch to nav";
+          action-name: "win.switch_stack_nav";
+        }
+      };
+    }
+
+    Adw.ViewStackPage {
+      name: "nav";
+      title: "Navigation";
+      icon-name: "audio-volume-high";
+      child: Adw.NavigationView navigation_view {
+        Adw.NavigationPage {
+          tag: "first";
+          title: "First page";
+          child: Adw.ToolbarView {
+            [top]
+            Adw.HeaderBar {
+              show-title: true;
+
+              [start]
+              Button switch_stack {
+                label: "Switch stack";
+                action-name: "win.switch_stack_default";
+              }
+
+              [title]
+              Box {
+                hexpand: false;
+
+                Adw.ViewSwitcher {
+                  stack: main_stack;
+                  hexpand: true;
+                  policy: wide;
+                }
+              }
+            }
+
+            Box {
+              orientation: horizontal;
+
+              Button next_page {
+                height-request: 50;
+                label: "Go to next page";
+                action-name: "win.switch_to_next_page";
+              }
+            }
+          };
+        }
+
+        $OtherPage other_page {
+        }
+
+      };
+    }
+  }
+}

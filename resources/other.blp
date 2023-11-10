@@ -1,0 +1,22 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $OtherPage : Adw.NavigationPage {
+  tag: "other";
+  title: "Other page";
+  child: 
+  Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      show-back-button: false;
+
+      [start]
+      Button btn {
+        label: "Go to back page";
+        action-name: "win.switch_to_first_page";
+      }
+    }
+  }
+
+  ;
+}

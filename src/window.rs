@@ -12,10 +12,10 @@ mod imp {
     use crate::other_page::OtherPage;
 
     #[derive(Default, gtk::CompositeTemplate)]
-    #[template(resource = "/se/andras/gtkadw/window.ui")]
+    #[template(file = "resources/window.blp")]
     pub struct Window {
         #[template_child]
-        pub main_stack: TemplateChild<gtk::Stack>,
+        pub main_stack: TemplateChild<adw::ViewStack>,
 
         #[template_child]
         pub navigation_view: TemplateChild<adw::NavigationView>,
