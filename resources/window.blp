@@ -72,6 +72,11 @@ template $MyWindow : ApplicationWindow {
                 label: "Go to next page";
                 action-name: "win.switch_to_next_page";
               }
+
+              ColumnView column_view {
+                reorderable: false;
+                hexpand: true;
+              }
             }
           };
         }

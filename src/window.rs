@@ -1,13 +1,13 @@
-use gtk::{
-    gio,
-    glib::{self, Object},
-    subclass::prelude::ObjectSubclassIsExt,
-};
+use gtk::{gio, glib, subclass::prelude::ObjectSubclassIsExt};
 
 mod imp {
 
     use adw::subclass::prelude::*;
-    use gtk::glib::{self, object_subclass, subclass::InitializingObject};
+    use gtk::{
+        gio,
+        glib::{self, object_subclass, subclass::InitializingObject},
+        ColumnViewColumn,
+    };
 
     use crate::other_page::OtherPage;
 
@@ -30,6 +30,9 @@ mod imp {
         pub switch_to_nav: TemplateChild<gtk::Button>,
 
         #[template_child]
+        pub column_view: TemplateChild<gtk::ColumnView>,
+
+        #[template_child]
         pub other_page: TemplateChild<OtherPage>,
     }
 
@@ -38,6 +41,7 @@ mod imp {
         const NAME: &'static str = "MyWindow";
         type Type = super::Window;
         type ParentType = gtk::ApplicationWindow;
+        type Interfaces = (gio::Initable,);
 
         fn class_init(klass: &mut Self::Class) {
             klass.bind_template();
@@ -67,13 +71,21 @@ mod imp {
     impl ObjectImpl for Window {
         fn constructed(&self) {
             self.parent_constructed();
+
+            // ColumnViewColumn must be stored in a Vec<Box<ColumnViewColumn>> to
+            // always have the same pointer, making them removeable
+            self.column_view
+                .append_column(&ColumnViewColumn::builder().title("Column 1").build());
+            self.column_view
+                .append_column(&ColumnViewColumn::builder().title("Column 2").build());
+            self.column_view
+                .append_column(&ColumnViewColumn::builder().title("Column 3").build());
         }
     }
 
     impl InitableImpl for Window {
         fn init(&self, _cancellable: Option<&gtk::gio::Cancellable>) -> Result<(), glib::Error> {
             let win = self.obj();
-
             win.set_view("default");
             Ok(())
         }
@@ -95,10 +107,14 @@ glib::wrapper! {
 #[gtk::template_callbacks]
 impl Window {
     pub fn new(app: &adw::Application) -> Self {
-        Object::builder().property("application", app).build()
+        gio::Initable::builder()
+            .property("application", app)
+            .build(gio::Cancellable::NONE)
+            .unwrap()
     }
 
     pub fn set_view(&self, view: &str) {
+        println!("set_view");
         let imp = self.imp();
         if view == "defualt" {
             imp.main_stack.set_visible_child_name("default");
