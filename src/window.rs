@@ -2,12 +2,13 @@ use gtk::{gio, glib, subclass::prelude::ObjectSubclassIsExt};
 
 mod imp {
 
-    use adw::subclass::prelude::*;
+    use adw::{prelude::TextViewExt, subclass::prelude::*};
     use gtk::{
         gio,
         glib::{self, object_subclass, subclass::InitializingObject},
         ColumnViewColumn,
     };
+    use sourceview5::{prelude::*, Buffer, LanguageManager};
 
     use crate::other_page::OtherPage;
 
@@ -34,6 +35,12 @@ mod imp {
 
         #[template_child]
         pub other_page: TemplateChild<OtherPage>,
+
+        #[template_child]
+        pub source_view: TemplateChild<sourceview5::View>,
+
+        #[template_child]
+        pub source_view_buffer: TemplateChild<sourceview5::Buffer>,
     }
 
     #[object_subclass]
@@ -80,6 +87,10 @@ mod imp {
                 .append_column(&ColumnViewColumn::builder().title("Column 2").build());
             self.column_view
                 .append_column(&ColumnViewColumn::builder().title("Column 3").build());
+
+            let sql = LanguageManager::default().language("sql").unwrap();
+            // self.source_view.buffer().set_language(Some(sql));
+            self.source_view_buffer.set_language(Some(&sql));
         }
     }
 

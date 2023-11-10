@@ -1,5 +1,6 @@
 using Gtk 4.0;
 using Adw 1;
+using GtkSource 5;
 
 template $MyWindow : ApplicationWindow {
   default-width: 720;
@@ -30,6 +31,7 @@ template $MyWindow : ApplicationWindow {
           label: "Switch to nav";
           action-name: "win.switch_stack_nav";
         }
+
       };
     }
 
@@ -50,6 +52,7 @@ template $MyWindow : ApplicationWindow {
               Button switch_stack {
                 label: "Switch stack";
                 action-name: "win.switch_stack_default";
+
               }
 
               [title]
@@ -73,6 +76,14 @@ template $MyWindow : ApplicationWindow {
                 action-name: "win.switch_to_next_page";
               }
 
+              GtkSource.View source_view {
+                highlight-current-line: true;
+                hexpand: true;
+                show-line-numbers: true;
+                buffer: source_view_buffer;
+
+              }
+
               ColumnView column_view {
                 reorderable: false;
                 hexpand: true;
@@ -87,4 +98,7 @@ template $MyWindow : ApplicationWindow {
       };
     }
   }
+}
+
+GtkSource.Buffer source_view_buffer {
 }
